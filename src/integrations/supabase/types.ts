@@ -14,16 +14,180 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      branches: {
+        Row: {
+          created_at: string
+          id: string
+          location: string | null
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          location?: string | null
+          name: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          location?: string | null
+          name?: string
+        }
+        Relationships: []
+      }
+      daily_reports: {
+        Row: {
+          bankaya_yatan: number
+          branch_id: string
+          ciro_simpra_fark: number
+          created_at: string
+          date: string
+          id: string
+          kasa_avansi: number
+          kasa_devir: number
+          kredi_karti: number
+          labcoin: number
+          masraf: number
+          metropol_kart: number
+          multinet: number
+          nakit_tahsilat: number
+          net_kasa_bakiye: number
+          notes: string | null
+          online_odeme: number
+          paye_kart: number
+          setcard: number
+          simpra_toplami: number
+          sodexo: number
+          ticket: number
+          toplam_ciro: number
+          toplam_kasa_bakiye: number
+          updated_at: string
+          user_id: string
+          z_raporu_fark: number
+          z_raporu_toplami: number
+        }
+        Insert: {
+          bankaya_yatan?: number
+          branch_id: string
+          ciro_simpra_fark?: number
+          created_at?: string
+          date?: string
+          id?: string
+          kasa_avansi?: number
+          kasa_devir?: number
+          kredi_karti?: number
+          labcoin?: number
+          masraf?: number
+          metropol_kart?: number
+          multinet?: number
+          nakit_tahsilat?: number
+          net_kasa_bakiye?: number
+          notes?: string | null
+          online_odeme?: number
+          paye_kart?: number
+          setcard?: number
+          simpra_toplami?: number
+          sodexo?: number
+          ticket?: number
+          toplam_ciro?: number
+          toplam_kasa_bakiye?: number
+          updated_at?: string
+          user_id: string
+          z_raporu_fark?: number
+          z_raporu_toplami?: number
+        }
+        Update: {
+          bankaya_yatan?: number
+          branch_id?: string
+          ciro_simpra_fark?: number
+          created_at?: string
+          date?: string
+          id?: string
+          kasa_avansi?: number
+          kasa_devir?: number
+          kredi_karti?: number
+          labcoin?: number
+          masraf?: number
+          metropol_kart?: number
+          multinet?: number
+          nakit_tahsilat?: number
+          net_kasa_bakiye?: number
+          notes?: string | null
+          online_odeme?: number
+          paye_kart?: number
+          setcard?: number
+          simpra_toplami?: number
+          sodexo?: number
+          ticket?: number
+          toplam_ciro?: number
+          toplam_kasa_bakiye?: number
+          updated_at?: string
+          user_id?: string
+          z_raporu_fark?: number
+          z_raporu_toplami?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "daily_reports_branch_id_fkey"
+            columns: ["branch_id"]
+            isOneToOne: false
+            referencedRelation: "branches"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          branch_id: string | null
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          branch_id?: string | null
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          branch_id?: string | null
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_roles_branch_id_fkey"
+            columns: ["branch_id"]
+            isOneToOne: false
+            referencedRelation: "branches"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_user_branch_id: { Args: { _user_id: string }; Returns: string }
+      get_user_role: {
+        Args: { _user_id: string }
+        Returns: Database["public"]["Enums"]["app_role"]
+      }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "branch_manager" | "gm" | "owner"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +314,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["branch_manager", "gm", "owner"],
+    },
   },
 } as const
